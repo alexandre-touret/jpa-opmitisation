@@ -1,0 +1,12 @@
+version: "3"
+services:
+  database:
+    image: "postgres:16.1"
+    container_name: "books-jpa-database"
+    environment:
+      - POSTGRES_PASSWORD=book
+      - POSTGRES_USER=book
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-init/initialize-databases.sql:/docker-entrypoint-initdb.d/init.sql
