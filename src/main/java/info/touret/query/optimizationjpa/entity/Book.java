@@ -18,7 +18,7 @@ public class Book implements Serializable {
     private String isbn13;
     @Column(name = "isbn_10")
     private String isbn10;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Author> authors;
     @Column(name = "year_of_publication")
     private Integer yearOfPublication;
@@ -40,7 +40,8 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @ManyToOne(targetEntity = Store.class)
+    private Store store;
     @Transient
     private transient String excerpt;
 
@@ -49,8 +50,8 @@ public class Book implements Serializable {
     }
 
     @PostLoad
-    public void initFields(){
-        if(description!=null) {
+    public void initFields() {
+        if (description != null) {
             this.excerpt = description.substring(0, 100);
         }
     }
@@ -151,4 +152,11 @@ public class Book implements Serializable {
         this.description = description;
     }
 
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 }
