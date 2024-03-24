@@ -15,15 +15,15 @@ import java.util.Set;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
-
-    @EntityGraph(value = "store[books]")
-    Optional<Store> findByName(String name);
+//
+//    @EntityGraph(value = "store[books]")
+//    Optional<Store> findByName(String name);
 
     @Query(value = "from Store store JOIN FETCH store.books books")
     @Cacheable("stores")
     Set<Store> findStores();
 
-    Page<Store> findStores(Pageable pageable);
+    @Query(value="select * from Store s where s.name= :name", nativeQuery=true)
+    Optional<Store> findByName(String name);
 
-    Slice<Store> findStoresSlice(Pageable pageable);
 }
